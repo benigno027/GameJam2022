@@ -41,11 +41,8 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if(rigidBody.velocity.x < runningSpeed){
-            rigidBody.velocity = new Vector2(runningSpeed, //x
-                                             rigidBody.velocity.y //y
-                                            );
-        }
+        float horizontalMovement = Input.GetAxis("Horizontal");
+        rigidBody.velocity = new Vector2(horizontalMovement * runningSpeed, rigidBody.velocity.y);
     }
 
     void Jump()
