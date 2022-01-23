@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 226695682837343067}
   m_Layer: 0
   m_Name: BulletSlime
-  m_TagString: Untagged
+  m_TagString: BulletSlime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

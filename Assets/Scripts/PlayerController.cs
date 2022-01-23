@@ -30,19 +30,28 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
+
+        if(Input.GetKeyDown(KeyCode.Space)){
             Jump();
         }
 
         // animator.SetBool(STATE_ON_THE_GROUND, IsTouchingTheGround());
-
-        Debug.DrawRay(this.transform.position, Vector2.down * 1.5f, Color.red);
 	}
 
+    
     void FixedUpdate()
     {
         float horizontalMovement = Input.GetAxis("Horizontal");
+        gameObject.GetComponent<SpriteRenderer>().flipX = horizontalMovement < 0;
         rigidBody.velocity = new Vector2(horizontalMovement * runningSpeed, rigidBody.velocity.y);
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.tag == "BulletSlime") {
+            CharacterLifeScript.collisionDamage();
+            Destroy(other.gameObject);
+        }    
     }
 
     void Jump()
@@ -65,6 +74,10 @@ public class PlayerController : MonoBehaviour {
             //TODO: programar lógica de no contacto
             return false;
         }
+    }
+
+    public void killPlayer(){
+        Destroy(this.gameObject);
     }
 
 }

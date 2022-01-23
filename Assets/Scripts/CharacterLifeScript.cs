@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 public class CharacterLifeScript : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class CharacterLifeScript : MonoBehaviour
     public PlayerController player;
     public Text lifeText;
     public float timeRemaining = 10;
-    private int lifePlayer = 100;
+    static int lifePlayer = 100;
 
     private void Awake()
     {
@@ -25,6 +25,18 @@ public class CharacterLifeScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CalculateRemainingTime();
+        lifeText.text = "Life: " + lifePlayer + "%";
+    }
+
+    private void FixedUpdate()
+    {
+        stopScene();
+    }
+
+    //Nos calcula el tiempo restante para el descuento de vida
+    void CalculateRemainingTime()
+    {
         if (timeRemaining > 0)
         {
             timeRemaining -= Time.deltaTime;
@@ -36,14 +48,25 @@ public class CharacterLifeScript : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-
-    }
-
+    //Nos indica la vida del personaje
     public void UpdateLife()
     {
         lifePlayer--;
-        lifeText.text = "Life: " + lifePlayer + "%";
+    }
+
+    //Le reduce la vida al personaje en caso de una colision
+    static public void collisionDamage()
+    {
+        lifePlayer -= 10;
+    }
+
+
+    //Si la vida del personaje llega a 0, se detiene la escena
+    void stopScene()
+    {
+        if (lifePlayer <= 0)
+        {
+            SceneManager.LoadScene("GameOverScene");
+        }
     }
 }
