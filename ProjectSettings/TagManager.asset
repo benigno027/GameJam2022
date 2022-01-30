@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - BulletSlime
+  - Weapon
+  - Enemy
+  - DeadZone
+  - Terrain
+  - MovementPatterns
+  - BossFireBall
   layers:
   - Default
   - TransparentFX
