@@ -32,7 +32,7 @@ public class CharacterLifeScript : MonoBehaviour
     void Update()
     {
         CalculateRemainingTime();
-        lifeText.text = "Life: " + lifePlayer + "%";
+        lifeText.text = lifePlayer + "%";
 
         if(isHurt){
             isHurt = false;
@@ -82,7 +82,7 @@ public class CharacterLifeScript : MonoBehaviour
 
     IEnumerator player_hurt(){
         animator.SetBool(STATE_PLAYER_HURT, true);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         animator.SetBool(STATE_PLAYER_HURT, false);
     }
 
@@ -92,6 +92,7 @@ public class CharacterLifeScript : MonoBehaviour
     {
         if (lifePlayer <= 0)
         {
+            lifePlayer = 100;
             SceneManager.LoadScene("GameOverScene");
         }
     }

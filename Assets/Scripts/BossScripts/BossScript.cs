@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BossScript : MonoBehaviour
 {
 
-    public static int health = 100;
-    public int healthBar = 100;
+    public static int health = 300;
+    public int healthBar = 300;
+    public Text lifeText;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +20,7 @@ public class BossScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        lifeText.text = healthBar + "%";
         healthBar = health;
         Die();
     }
@@ -31,6 +35,7 @@ public class BossScript : MonoBehaviour
     {
         if (health <= 0)
         {
+            SceneManager.LoadScene("MainScene");
             Destroy(gameObject);
         }
     }

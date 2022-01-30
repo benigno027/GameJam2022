@@ -12,6 +12,7 @@ public class SlimeController : MonoBehaviour
     public float timeRemaining = 3;
     public float timeRemainingStatic;
     public GameObject bulletSlime;
+    public bool useBulletSlime = true;
     public float bulletForce = 10f;
     public float shootTimeRemaining = 3f;
     private float shootTimeRemainingStatic;
@@ -42,8 +43,11 @@ public class SlimeController : MonoBehaviour
     void Update()
     {
         slimMovement();
-        raycast();
-        shootTimer();
+
+        if(useBulletSlime){
+            raycast();
+            shootTimer();
+        }
     }
 
     void FixedUpdate()
@@ -71,10 +75,13 @@ public class SlimeController : MonoBehaviour
 
         if (this.isMovingLeft)
         {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
             rigidBody.velocity = new Vector2(-1 * runningSpeed, rigidBody.velocity.y);
         }
         else
         {
+            
+            transform.rotation = Quaternion.Euler(0, 180, 0);
             rigidBody.velocity = new Vector2(runningSpeed, rigidBody.velocity.y);
         }
         
