@@ -11,10 +11,16 @@ public class CharacterLifeScript : MonoBehaviour
     public Text lifeText;
     public float timeRemaining = 10;
     static int lifePlayer = 100;
+    static bool isHurt = false;
+
+    public GameObject playerGameObject;
+    [SerializeField]
+    Animator animator;
+    const string STATE_PLAYER_HURT = "isPlayerHurt";
 
     private void Awake()
     {
-
+        animator = playerGameObject.GetComponent<Animator>();
     }
 
     void Start()
@@ -27,6 +33,11 @@ public class CharacterLifeScript : MonoBehaviour
     {
         CalculateRemainingTime();
         lifeText.text = "Life: " + lifePlayer + "%";
+
+        if(isHurt){
+            isHurt = false;
+            StartCoroutine(player_hurt());
+        }
     }
 
     private void FixedUpdate()
@@ -54,15 +65,25 @@ public class CharacterLifeScript : MonoBehaviour
         lifePlayer--;
     }
 
+    
     //Le reduce la vida al personaje en caso de una colision
     static public void collisionDamage()
     {
+        
         lifePlayer -= 10;
+        isHurt = true;
     }
 
     static public void criticalDamage(int damage)
     {
         lifePlayer = damage;
+        isHurt = true;
+    }
+
+    IEnumerator player_hurt(){
+        animator.SetBool(STATE_PLAYER_HURT, true);
+        yield return new WaitForSeconds(0.2f);
+        animator.SetBool(STATE_PLAYER_HURT, false);
     }
 
 

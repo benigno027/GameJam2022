@@ -11,6 +11,8 @@ TagManager:
   - Terrain
   - MovementPatterns
   - BossFireBall
+  - Portal
+  - Canvas
   layers:
   - Default
   - TransparentFX

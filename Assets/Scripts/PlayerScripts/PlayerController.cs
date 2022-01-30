@@ -8,26 +8,24 @@ public class PlayerController : MonoBehaviour
     //Variables del movimiento del personaje
     public float jumpForce = 6f;
     public float runningSpeed = 2f;
-
     Rigidbody2D rigidBody;
     Animator animator;
 
-    const string STATE_ALIVE = "isAlive";
     const string STATE_ON_THE_GROUND = "isOnTheGround";
+    const string STATE_PLAYER_RUN = "isPlayerRun";
 
     public LayerMask groundMask;
 
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        // animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
 
     // Use this for initialization
     void Start()
     {
-        // animator.SetBool(STATE_ALIVE, true);
-        // animator.SetBool(STATE_ON_THE_GROUND, true);
+        animator.SetBool(STATE_ON_THE_GROUND, true);
     }
 
     // Update is called once per frame
@@ -50,7 +48,15 @@ public class PlayerController : MonoBehaviour
         }
 
         float horizontalMovement = Input.GetAxis("Horizontal");
-        rigidBody.velocity = new Vector2(horizontalMovement * runningSpeed, rigidBody.velocity.y);
+        if(horizontalMovement != 0)
+        {
+            Run(horizontalMovement);
+        }
+        else
+        {
+            StopRun();
+        }
+        
     }
 
 
@@ -58,6 +64,18 @@ public class PlayerController : MonoBehaviour
     {
 
 
+    }
+
+    
+    void Run(float horizontalMovement)
+    {
+        animator.SetBool(STATE_PLAYER_RUN, true);
+        rigidBody.velocity = new Vector2(horizontalMovement * runningSpeed, rigidBody.velocity.y);
+    }
+
+    void StopRun()
+    {
+        animator.SetBool(STATE_PLAYER_RUN, false);
     }
 
 
@@ -88,10 +106,11 @@ public class PlayerController : MonoBehaviour
     {
         if (Physics2D.Raycast(this.transform.position,
                              Vector2.down,
-                             1.5f,
+                             2f,
                              groundMask))
         {
             //TODO: programar lógica de contacto con el suelo
+            
             return true;
         }
         else

@@ -5,23 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
-	public GameObject LoadingScene;
-	public Image LoadingBar;
+    public GameObject LoadingPanel;
+    public void LoadLevel(string sceneName)
+    {
+        StartCoroutine(LoadNextScene(sceneName));
+    }
 
-	public void LoadLevel (int NumeroEscena)
-	{
-		StartCoroutine (LevelCoroutine (NumeroEscena));
-	}
+    IEnumerator LoadNextScene(string sceneName)
+    {
+        LoadingPanel.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene(sceneName);
+    }
 
-	IEnumerator LevelCoroutine (int NumeroEscena)
-	{
-		LoadingScene.SetActive (true);
-        AsyncOperation async = SceneManager.LoadSceneAsync(NumeroEscena, LoadSceneMode.Single);
-
-		while (!async.isDone)
-        {
-			LoadingBar.fillAmount = async.progress / 0.9f;
-			yield return null;
-		}
-	}
 }
